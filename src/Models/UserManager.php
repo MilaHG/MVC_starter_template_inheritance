@@ -5,7 +5,7 @@ namespace App\Models;
 use PDO;
 
 // id, username, password
-class UserManager extends ConnexionManager
+class UserManager extends PDOManager
 {
     /**
      * Find All users
@@ -17,7 +17,7 @@ class UserManager extends ConnexionManager
                   INNER JOIN todolist t ON u.id = t.user_id 
                   ORDER BY u.username';
 
-        $stmt = $this->connexion->prepare($query);
+        $stmt = $this->bdd->prepare($query);
         $stmt->execute();
 
         $tasksByUser = [];
@@ -39,7 +39,7 @@ class UserManager extends ConnexionManager
     public function findAllTest(): false|array
     {
         $query = 'SELECT * FROM user';
-        $stmt = $this->connexion->query($query);
+        $stmt = $this->bdd->query($query);
         return $stmt->fetchAll();
     }
 
@@ -50,14 +50,14 @@ class UserManager extends ConnexionManager
     {
         $query = 'INSERT INTO user (username, password) VALUES (:username, :password)';
 
-        $stmt = $this->connexion->prepare($query);
+        $stmt = $this->bdd->prepare($query);
         $stmt->bindValue('username', $user->getUsername());
         $stmt->bindValue('password', $user->getPassword());
 
         $stmt->execute();
 
-        $user->setId((int)$this->connexion->lastInsertId());
+        $user->setId((int)$this->bdd->lastInsertId());
 
-        return $this->connexion->lastInsertId();
+        return $this->bdd->lastInsertId();
     }
 }
