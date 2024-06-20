@@ -31,6 +31,33 @@ Ainsi, la méthode findAllUsers utilise $this->connexion pour interagir avec la 
 
 ## Enregistrement d'un nouvel utilisateur
 
+> FormRegister.php
+> Formulaire d'inscription
+
+```php
+<?php
+include_once ('Header.php');
+?>
+    <main>
+        <h2>Register new magical user</h2>
+        <form action="/register" method="POST">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <input type="submit" value="Register">
+    </form>
+    </main>
+
+<?php
+include_once ('Footer.php');
+```
+
+
 > UserManager.php
 
 ```php
@@ -67,4 +94,30 @@ public function registerUser(User $user, string $password): int
     {
         require VIEWS . 'FormRegister.php';
     }
+
+    // Enregistrer un nouvel utilisateur
+    public function registerUser(): void
+    {
+        $user = new User();
+        $user->setUsername($_POST['username']);
+        $user->setPassword($_POST['password']);
+
+        $userManager = new UserManager();
+        $userManager->registerUser($user, $_POST['password']);
+
+        header('Location: /');
+    }
+```
+
+> index.php
+
+On ajoute les routes que l'on vient de créer dans le UserController pour afficher le formulaire d'inscription et pour traiter l'inscription
+```php
+// Route pour afficher le formulaire d'inscription
+$router->get('/register', 'UserController@registerForm');
+
+// Route pour traiter l'inscription
+$router->post('/register', 'UserController@registerUser');
+```
+
 

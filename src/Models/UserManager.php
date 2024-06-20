@@ -10,11 +10,14 @@ class UserManager extends PDOManager
     // attribut  de type User
     private $user;
 
-    // constructeur  de . la classe
+    // constructeur de la classe
     public function __construct()
     {
-        // on instancie un objet de type UserManager
-        $this->UserManager = new UserManager();
+        // Appeler le constructeur parent pour initialiser la connexion à la base de données
+        parent::__construct();
+
+        // Instancier un objet de la classe User
+        //$this->user = new User();
     }
 
     /**
@@ -61,9 +64,8 @@ class UserManager extends PDOManager
         $query = 'INSERT INTO user (username, password) VALUES (:username, :password)';
 
         $stmt = $this->bdd->prepare($query);
-        $stmt->bindValue('username', $user->getUsername());
-        $stmt->bindValue('password', $user->getPassword());
-        // $stmt->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));
+        $stmt->bindValue(':username', $user->getUsername());
+        $stmt->bindValue(':password', $user->getPassword());
 
         $stmt->execute();
 

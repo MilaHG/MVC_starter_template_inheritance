@@ -16,6 +16,7 @@
         <ul>
             <li><a href="#">Find your List</a></li>
             <li><a href="#">Create a new List</a></li>
+            <li><a href="/register">Register a new user</a></li>
         </ul>
     </nav>
 </header>

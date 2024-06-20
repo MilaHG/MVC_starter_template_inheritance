@@ -10,10 +10,13 @@ $router = new App\Router($_SERVER['REQUEST_URI']);
 // homepage
 $router->get('/', "UserController@index");
 
-//ROUTES EN POST
-//*******************************
+/***
+ * Routes pour les utilisateurs
+ */
+// Route pour afficher le formulaire d'inscription
+$router->get('/register', 'UserController@registerForm');
 
-//Route pour stocker un nouvel user dans la base de données
-$router->post('/register', "UserController@register");
+// Route pour traiter l'inscription
+$router->post('/register', 'UserController@registerUser');
 
 $router->run();
