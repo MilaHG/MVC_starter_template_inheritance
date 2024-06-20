@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-//use App\Models\ConnexionPDO;
-use App\Models\ConnexionManager;
 use App\Models\UserManager;
 use App\Models\User;
 
@@ -52,6 +50,38 @@ class UserController
         $content .= "</div>";
 
         require VIEWS . 'Layout.php';
+    }
+
+
+    // Afficher  le formulaire d'inscription  (page d'inscription)
+    public function registerForm(): void
+    {
+        require VIEWS . 'FormRegister.php';
+    }
+
+    // Enregistrer un nouvel utilisateur
+    public function registerUser(): void
+    {
+        // On vérifie que les champs sont bien remplis
+        if (!empty($_POST['username']) && !empty($_POST['password'])) {
+            // On récupère les données du formulaire
+            $username = htmlspecialchars($_POST['username']);
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+            // On instancie un objet de type User
+            $user = new User();
+            $user->setUsername($username);
+            $user->setPassword($password);
+
+            // On enregistre l'utilisateur
+            $this->userManager->registerUser($user, $password);
+
+            // On redirige vers la page d'accueil
+            header('Location: /');
+        } else {
+            // On redirige vers la page d'inscription
+            header('Location: /register');
+        }
     }
 }
 

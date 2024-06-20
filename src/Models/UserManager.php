@@ -7,6 +7,16 @@ use PDO;
 // id, username, password
 class UserManager extends PDOManager
 {
+    // attribut  de type User
+    private $user;
+
+    // constructeur  de . la classe
+    public function __construct()
+    {
+        // on instancie un objet de type UserManager
+        $this->UserManager = new UserManager();
+    }
+
     /**
      * Find All users
      */
@@ -44,15 +54,16 @@ class UserManager extends PDOManager
     }
 
     /**
-     * Persist one user
+     * Enregister un nouvel utilisateur
      */
-    public function persist(User $user)
+    public function registerUser(User $user, string $password): int
     {
         $query = 'INSERT INTO user (username, password) VALUES (:username, :password)';
 
         $stmt = $this->bdd->prepare($query);
         $stmt->bindValue('username', $user->getUsername());
         $stmt->bindValue('password', $user->getPassword());
+        // $stmt->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));
 
         $stmt->execute();
 
@@ -60,4 +71,5 @@ class UserManager extends PDOManager
 
         return $this->bdd->lastInsertId();
     }
+
 }
