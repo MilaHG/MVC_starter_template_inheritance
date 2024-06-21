@@ -69,7 +69,7 @@ class UserManager extends PDOManager
 
         $stmt->execute();
 
-        $user->setId((int)$this->bdd->lastInsertId());
+        //$user->setId((int)$this->bdd->lastInsertId());
 
         return $this->bdd->lastInsertId();
     }

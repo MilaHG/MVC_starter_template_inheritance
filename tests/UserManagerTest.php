@@ -17,13 +17,13 @@ final class UserManagerTest extends TestCase
     {
         parent::setUp();
 
-        // Initialiser UserManager sans transaction
+        // Initialiser UserManager
         $this->userManager = new UserManager();
     }
 
     public function testRegisterUser(): void
     {
-        $username = 'testuserPHPunit';
+        $username = 'Ziyad';
         $password = 'testpassword';
 
         // Créer un objet User
@@ -37,8 +37,12 @@ final class UserManagerTest extends TestCase
         // Vérifier que l'ID retourné est un entier positif
         $this->assertIsInt($generatedId);
         $this->assertGreaterThan(0, $generatedId);
+    }
 
-        // EXO : Vérifier que l'utilisateur est bien enregistré en le trouvant dans la base de données
+    public function FindUserByNameTest (): void
+
+{
+       // EXO : Vérifier que l'utilisateur est bien enregistré en le trouvant dans la base de données
         // avant, vous devez créer une méthode findUserByUsername dans UserManager
         /*
         $foundUser = $this->findUserByUsername($username);
